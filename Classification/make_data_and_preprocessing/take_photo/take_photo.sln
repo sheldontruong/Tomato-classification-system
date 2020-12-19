@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "take_photo", "take_photo\take_photo.pyproj", "{70A44ACC-DA1C-434F-9089-AF9A4EE3B3D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70A44ACC-DA1C-434F-9089-AF9A4EE3B3D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70A44ACC-DA1C-434F-9089-AF9A4EE3B3D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7D465B3-624F-4234-9005-14E25F95F441}
+	EndGlobalSection
+EndGlobal

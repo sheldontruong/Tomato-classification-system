@@ -1,0 +1,2 @@
+#following this url to see the notebook for training
+https://colab.research.google.com/drive/1Vd8Xf1TA22hQrh7eU1tAZORr6LDN_B8U#scrollTo=bElcX23gbeZa
