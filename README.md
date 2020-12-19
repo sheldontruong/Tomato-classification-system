@@ -17,3 +17,6 @@
 ## 3. Code for controller (STM32F103C8T6):
 
 * [Controller-STM32F1](Controller-STM32F1)
+
+
+## I also have an IEEE paper for this project which represented at [GTSD 2020](https://easychair.org/cfp/GTSD2020)
