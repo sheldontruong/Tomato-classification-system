@@ -2,7 +2,8 @@
 
 > This is my graduation project about the tomato classification system. This project includes 3 part described below.
 
-<div style="text-align:center"><img src="image.png" /></div>
+![alt text]('image.png')
+![alt text]('model.png')
 
 ## 1. Core classification model (Convolutional neural network combined with Grad-CAM visualization):
 
