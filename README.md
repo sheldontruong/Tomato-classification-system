@@ -4,6 +4,7 @@
 
 ![](image.png)
 <img src="tSNE.png" alt="drawing" width="200"/>
+<img src="model.png" alt="drawing" width="700" height="200"/>
 
 ## 1. Core classification model (Convolutional neural network combined with Grad-CAM visualization):
 
