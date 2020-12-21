@@ -1,10 +1,11 @@
 # Tomato-classification-system
 
-> This is my graduation project about the tomato classification system. This project includes 3 part described below.
 
 ![](image.png)
 <img src="tSNE.png" alt="drawing" width="200"/>
 <img src="model.png" alt="drawing" width="700" height="200"/>
+
+> This is my graduation project about the tomato classification system. This project includes 3 part described below.
 
 ## 1. Core classification model (Convolutional neural network combined with Grad-CAM visualization):
 
