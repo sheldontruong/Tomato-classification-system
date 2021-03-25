@@ -53,5 +53,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--workingdir",default=".",help="current working directory")
     parser.add_argument("--output",default="train_data_100.h5",help)
-    main()
+    args = parser.parse_args()
+    main(args)
 

@@ -91,6 +91,7 @@ def test_img(img, model):
     img = img/255.
     out = model.predict(np.expand_dims(img,0))
     return out
+
 def grad_cam_generate(model,layer_name,nb_classes):
     index = tf.placeholder(dtype = tf.int16, shape = ())
     loss = tf.multiply(model.output , tf.one_hot([index],nb_classes))
@@ -98,6 +99,7 @@ def grad_cam_generate(model,layer_name,nb_classes):
     conv_output = [l for l in model.layers if l.name == layer_name][0].output
     grads = tf.gradients(reduced_loss,conv_output)[0]
     return conv_output,grads,index
+
 def grad_cam(model,category_index,sess,images,*args):
     conv_output,grads,index = args[0]
     
@@ -107,7 +109,7 @@ def grad_cam(model,category_index,sess,images,*args):
     cams = np.sum(weights*output, axis =3)
   
     full_img = (images*255.)
-  
+
     cams = np.maximum(cv2.resize(cams[0],(100,100)),0)
     heatmap = cams / np.max(cams)
     cams = cv2.applyColorMap(np.uint8(255 * heatmap), cv2.COLORMAP_JET)
@@ -116,37 +118,52 @@ def grad_cam(model,category_index,sess,images,*args):
     cams = np.uint8(cams)
   
     return cams,heatmap,np.uint8(full_img)
+
+
 def test_vid(video, model,sess):
     """
     Argument:
         ___video: type is String. It can be "camera" or link video 
         ___model: type is Keras model. 
+
+    ## Noted:
+    "The grad-CAM computation is implemented by the Tensorflow static graph"
+    "The model computation is implemented by the Tensorflow.keras dynamic graph"
+
     """
-    tmt_kind = ["red","red yellow", "green yellow","green","corrupt","nothing"]
-    disp_size = (1366,768)
+    tmt_kind = ["red","red yellow", "green yellow","green","corrupt","nothing"] #for mapping the prediction index to corresponding string
+    disp_size = (1366,768) # for display
     i = 0
     a = 0
-    arg = grad_cam_generate(model,"add_2",6)
+    arg = grad_cam_generate(model,"add_2",6) # create static graph (placeholder) first to compute the grad-CAM
     if video == "camera":
         cap = cv2.VideoCapture(0)
     elif video == "camera1":
         cap = cv2.VideoCapture(1)
     else:
         cap = cv2.VideoCapture(video)
+
     while(cap.isOpened()):
+        # Read frame from camera
         _,frame = cap.read()
+        # Preprocessing
         img = cv2.resize(frame[40:410,140:500,:],(100,100))/255.
-        start = time.time()
+        start = time.time() # mark the starting time
+        # Let model do the prediction
         predictions = model.predict(np.expand_dims(img,0))
         prob = np.max(predictions)
         predicted_class = np.argmax(predictions)
         print("     ",predicted_class)
+
+        # Generate the grad-CAM heatmap to visualize
         cam,heatmap,full_img = grad_cam(model, predicted_class,sess, img, arg)
         font = cv2.FONT_HERSHEY_SIMPLEX
-        img = np.concatenate((full_img,cam), axis = 1)
-        img = cv2.resize(img,disp_size)
-        end = time.time()
-        fps = 1/(end - start)
+        img = np.concatenate((full_img,cam), axis = 1) # create 2 views, 1 for original image, 1 for images with grad-CAM heatmap
+        img = cv2.resize(img,disp_size) # resize to the fixed size to visualize
+        end = time.time() # mark the finishing time
+        fps = 1/(end - start) # compute FPS
+
+        # Config the display and show the result
         cv2.putText(img,tmt_kind[predicted_class]+":"+str(prob),(10,100),font,1.5,(255,255,0),2)
         cv2.putText(img,"fps:"+str(int(fps)),(10,200),font,1,(255,255,0),2)
         cv2.namedWindow("Video", cv2.WND_PROP_FULLSCREEN)
@@ -156,7 +173,7 @@ def test_vid(video, model,sess):
                           cv2.WINDOW_FULLSCREEN)
         cv2.imshow("Video",img)
         key = cv2.waitKey(1)
-        if(key == 27):#ESC key : 27
+        if(key == 27):#ESC key : 27 # Press ESC to quit
             break
     cap.release()
     cv2.destroyAllWindows()
