@@ -2,13 +2,14 @@ import cv2
 import numpy as np
 import os
 import h5py
+import argparse
 
 def shuffle_data(x_train,y_train):
     idex = np.random.permutation(len(x_train))
     return x_train[idex],y_train[idex]
 
-def main():
-    os.chdir("D:/DO AN CDT/code_test")
+def main(args):
+    os.chdir(args.workingdir)
     #link folder : cachua_resize2
     #              |_____________train
     #                            |____loai1
@@ -43,11 +44,14 @@ def main():
     y = np.asarray(y_train) #label,shape (num_image,6)
     print(len(x))
     x_train,y_train = shuffle_data(x,y)
-    with h5py.File("train_data_100.h5",'w') as F:
+    with h5py.File(args.output,'w') as F:
         F.create_dataset('x_train',data = x_train)
         F.create_dataset('y_train',data = y_train)
     return 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--workingdir",default=".",help="current working directory")
+    parser.add_argument("--output",default="train_data_100.h5",help)
     main()
 
